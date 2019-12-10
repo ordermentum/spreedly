@@ -26,6 +26,8 @@ export type CreditCard  = {
     cardType: string;
 };
 
+export type Meta = { [key: string]: any };
+
 export default class Client {
     environment: string;
     secret: string;
@@ -37,7 +39,7 @@ export default class Client {
         this.environment = environment;
         this.secret = secret;
         this.options = Object.assign({}, ClientOptionsDefaults, options);
-        this.baseUrl = `${this.options.endpoint}/v/${this.options.version}`;
+        this.baseUrl = `${this.options.endpoint}/v${this.options.version}/`;
 
         this.httpClient = axios.create({
             baseURL: this.baseUrl,
@@ -48,7 +50,11 @@ export default class Client {
         });
     }
 
-    createCreditCard(card: CreditCard) {
-        return this.httpClient.post('payment_methods.json', card)
+    createCreditCard(email: string, card: CreditCard, meta: Meta) {
+        return this.httpClient.post('payment_methods.json', { email, metadata: meta, payment_method: { credit_card: card } })
+    }
+
+    retainCreditCard(token: string) {
+        return this.httpClient.put(`payment_methods/${token}/retain.json`);
     }
 }

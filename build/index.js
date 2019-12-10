@@ -13,7 +13,7 @@ class Client {
         this.environment = environment;
         this.secret = secret;
         this.options = Object.assign({}, exports.ClientOptionsDefaults, options);
-        this.baseUrl = `${this.options.endpoint}/v/${this.options.version}`;
+        this.baseUrl = `${this.options.endpoint}/v${this.options.version}/`;
         this.httpClient = axios_1.default.create({
             baseURL: this.baseUrl,
             auth: {
@@ -22,8 +22,11 @@ class Client {
             }
         });
     }
-    createCreditCard(card) {
-        return this.httpClient.post('payment_methods.json', card);
+    createCreditCard(email, card, meta) {
+        return this.httpClient.post('payment_methods.json', { email, metadata: meta, payment_method: { credit_card: card } });
+    }
+    retainCreditCard(token) {
+        return this.httpClient.put(`payment_methods/${token}/retain.json`);
     }
 }
 exports.default = Client;
