@@ -1,0 +1,32 @@
+{
+  "name": "spreedly",
+  "version": "0.0.2",
+  "description": "spreedly api client",
+  "main": "build/index.js",
+  "devDependencies": {
+    "prettier": "^1.19.1",
+    "tslint-config-prettier": "^1.18.0",
+    "typescript": "^3.7.3"
+  },
+  "scripts": {
+    "build": "tsc",
+    "prepublish": "yarn run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ordermentum/spreedly.git"
+  },
+  "author": "John D'Agostino",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/ordermentum/spreedly/issues"
+  },
+  "homepage": "https://github.com/ordermentum/spreedly#readme",
+  "keywords": [
+    "spreedly",
+    "payments"
+  ],
+  "peerDependencies": {
+    "axios": "^0.19.0"
+  }
+}
