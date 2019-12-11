@@ -1,15 +1,16 @@
 {
   "name": "spreedly",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "spreedly api client",
-  "main": "build/index.js",
+  "main": "./build/index.js",
+  "types": "./build/index.d.ts",
   "devDependencies": {
     "prettier": "^1.19.1",
     "tslint-config-prettier": "^1.18.0",
     "typescript": "^3.7.3"
   },
   "scripts": {
-    "build": "tsc",
+    "build": "tsc --declaration",
     "prepublish": "yarn run build"
   },
   "repository": {
