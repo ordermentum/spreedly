@@ -16,17 +16,33 @@ export const ClientOptionsDefaults = {
     version: 1,
 };
 
+
+
 export type CreditCard  = {
-    fullName: string;
+    fullName?: string;
     firstName: string;
     lastName: string;
+    number: string;
     email: string;
     verificationValue: string;
-    trackData: any;
     cardType: string;
+    month: string;
+    year: string;
 };
 
 export type Meta = { [key: string]: any };
+
+const snake = (string) => string.replace(/[\w]([A-Z])/g, (m) => {
+    return m[0] + "_" + m[1];
+}).toLowerCase();
+
+const request = (data) => {
+    const params = {};
+    for (const key in data) {
+        params[snake(key)] = data[key];
+    }
+    return params;
+}
 
 export default class Client {
     environment: string;
@@ -50,8 +66,10 @@ export default class Client {
         });
     }
 
-    createCreditCard(email: string, card: CreditCard, meta: Meta) {
-        return this.httpClient.post('payment_methods.json', { email, metadata: meta, payment_method: { credit_card: card } })
+    createCreditCard(email: string, card: CreditCard, meta?: Meta) {
+        const params = request(card);
+        return this.httpClient.post('payment_methods.json',
+            { email, metadata: meta, payment_method: { credit_card: params } });
     }
 
     retainCreditCard(token: string) {
