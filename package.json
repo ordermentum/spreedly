@@ -1,6 +1,6 @@
 {
   "name": "spreedly",
-  "version": "0.0.7",
+  "version": "0.0.13",
   "description": "spreedly api client",
   "main": "./build/index.js",
   "types": "./build/index.d.ts",
