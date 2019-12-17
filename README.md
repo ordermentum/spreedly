@@ -5,6 +5,8 @@ import Client from 'spreedly';
 
 const client = new Client(environment, token);
 
+const GATEWAY_ID = '123';
+
 const { token } = await client.createCreditCard(email, {
     fullName,
     number,
@@ -14,4 +16,5 @@ const { token } = await client.createCreditCard(email, {
 }, { userId: '1' });
 
 await client.retainCreditCard(token);
+await client.purchase(GATEWAY_ID, { amount: 100, currencyCode: 'USD', paymentMethodToken: token });
 ```

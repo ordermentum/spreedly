@@ -72,6 +72,35 @@ const NullLogger: Logger = {
     debug() {},
 };
 
+export type GatewayRequest = {
+    gatewayType:  string;
+    login: string;
+    versionOverride?: string; 
+}
+
+export type StoreGatewayRequest = {
+    paymentMethodToken: string;
+}
+
+export type PurchaseRequest = {
+    paymentMethodToken: string;
+    amount: number;
+    currencyCode: 'AUD' | 'USD' | 'EUR';
+}
+
+const buildGatewayRequest = (request: GatewayRequest) => {
+    return { gateway: { ... snakeObject(request) } };
+}
+
+const buildPurchaseRequest = (request: PurchaseRequest) => {
+    return { transaction: { ...snakeObject(request) } };
+}
+
+const buildStoreRequest = (request: StoreGatewayRequest) => {
+    return { transaction: { ...snakeObject(request) } };
+}
+
+
 export default class Client {
     environment: string;
     secret: string;
@@ -100,6 +129,20 @@ export default class Client {
       this.logger.trace('making credit card create request');
       const params = buildCreditCardRequest(request);
       return this.httpClient.post('payment_methods.json', params);
+    }
+
+    createGateway(request: GatewayRequest) {
+      const params = buildGatewayRequest(request);
+      return this.httpClient.post('gateways.json', params);
+    }
+
+    storeGateway(id: string, request: StoreGatewayRequest) {
+        return this.httpClient.post(`gateways/${id}/store.json`, buildStoreRequest(request));
+    }
+
+    purchase(id: string, request: PurchaseRequest) {
+        const params = buildPurchaseRequest(request);
+        return this.httpClient.post(`gateways/${id}/purchase.json`, params);
     }
 
     retainCreditCard(token: string) {
