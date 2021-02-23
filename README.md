@@ -1,5 +1,7 @@
 # Spreedly API Client
 
+Simple typescript/javascript client for the spreedly API
+
 ```javascript
 import Client from 'spreedly';
 
