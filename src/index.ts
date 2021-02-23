@@ -39,6 +39,10 @@ export type CreditCardRequest = {
     eligibleForCardUpdater?: Boolean;
 }
 
+export type UpdateCreditCardRequest = {
+    metadata?: Meta;
+}
+
 const snake = (string) => string.replace(/[\w]([A-Z])/g, (m) => {
     return m[0] + "_" + m[1];
 }).toLowerCase();
@@ -100,6 +104,10 @@ const buildStoreRequest = (request: StoreGatewayRequest) => {
     return { transaction: { ...snakeObject(request) } };
 }
 
+const buildUpdateCreditCardRequest = (request: UpdateCreditCardRequest) => {
+    return { payment_method: { ...snakeObject(request) } }
+}
+
 
 export default class Client {
     environment: string;
@@ -148,5 +156,11 @@ export default class Client {
     retainCreditCard(token: string) {
       this.logger.trace('making credit card retain request');
       return this.httpClient.put(`payment_methods/${token}/retain.json`);
+    }
+
+    updateCreditCard(token: string, request: UpdateCreditCardRequest) {
+        this.logger.trace('making credit card update request');
+        const params = buildUpdateCreditCardRequest(request);
+        return this.httpClient.put(`payment_methods/${token}.json`, params);
     }
 }
