@@ -163,4 +163,9 @@ export default class Client {
         const params = buildUpdateCreditCardRequest(request);
         return this.httpClient.put(`payment_methods/${token}.json`, params);
     }
+
+    getCreditCard(token: string) {
+        this.logger.trace('getting credit card');
+        return this.httpClient.get(`payment_methods/${token}.json`)
+    }
 }
