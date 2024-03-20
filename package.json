@@ -10,7 +10,7 @@
   "devDependencies": {
     "prettier": "1.19.1",
     "tslint-config-prettier": "1.18.0",
-    "typescript": "3.7.3"
+    "typescript": "5.4.3"
   },
   "scripts": {
     "build": "tsc --declaration",
